@@ -10,11 +10,11 @@ abstract class Model
 
     protected $entity;
 
-    private $massage;
+    private $message;
 
     public function getMessage(): ?string
     {
-        return $this->massage;
+        return $this->message;
     }
 
     public function selectAll (): ?array
@@ -50,10 +50,10 @@ abstract class Model
 
         try {
             $result = $conn->query($query);
-            $this->massage = "Registro inserido com sucesso!";
+            $this->message = "Registro inserido com sucesso!";
             return $result ? $conn->lastInsertId() : null;
         } catch (PDOException $exception) {
-            $this->massage = "Erro ao inserir: {$exception->getMessage()}";
+            $this->message = "Erro ao inserir: {$exception->getMessage()}";
             return false;
         }
 

@@ -1,6 +1,5 @@
 <?php
 
-
 const CONF_DB_HOST = "mysql";
 // const CONF_DB_HOST = "localhost";
 
