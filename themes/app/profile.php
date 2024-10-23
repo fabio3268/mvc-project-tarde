@@ -15,7 +15,7 @@ $this->end();
 
 <div class="private-area">
     <h1>Perfil do Usuário</h1>
-    <form class="private-area" enctype="multipart/form-data">
+    <form id="profile" class="private-area">
         <div class="form-group">
             <label for="nome">Nome:</label>
             <input type="text" id="name" name="name" required>
@@ -27,10 +27,13 @@ $this->end();
         <div class="form-group">
             <label for="endereco">Endereço:</label>
             <input type="text" id="address" name="address">
+        <button type="submit">Atualizar Perfil</button>
+    </form>
+    <form enctype="multipart/form-data">
         <div class="form-group">
             <label for="foto">Foto:</label>
-            <input type="file" id="photo" name="photo" accept="image/*">
+            <input type="file" id="photo" name="photo">
+            <button type="submit">Atualizar Foto</button>
         </div>
-        <button type="submit">Atualizar Perfil</button>
     </form>
 </div>
