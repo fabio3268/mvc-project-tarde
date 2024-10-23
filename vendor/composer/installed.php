@@ -19,6 +19,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'coffeecode/uploader' => array(
+            'pretty_version' => '2.0.4',
+            'version' => '2.0.4.0',
+            'reference' => '4601ff1665a4591087c524239c1e545ba4834453',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../coffeecode/uploader',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'fabio3268/mvc-project-manha' => array(
             'pretty_version' => '1.0.0+no-version-set',
             'version' => '1.0.0.0',

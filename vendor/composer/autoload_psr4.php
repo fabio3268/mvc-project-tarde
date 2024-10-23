@@ -9,5 +9,6 @@ return array(
     'Source\\' => array($baseDir . '/source'),
     'League\\Plates\\' => array($vendorDir . '/league/plates/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
+    'CoffeeCode\\Uploader\\' => array($vendorDir . '/coffeecode/uploader/src'),
     'CoffeeCode\\Router\\' => array($vendorDir . '/coffeecode/router/src'),
 );
