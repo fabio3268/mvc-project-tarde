@@ -20,8 +20,14 @@ fetch(getBackendUrlApi("users/me"), {
                 window.location.href = getBackendUrl();
             },3000);
         }
-        console.log(data.user);
-        showDataForm(data.user);
+
+        const dataUserTemp = {
+            name: data.user.name,
+            email: data.user.email,
+            address: data.user.address
+        };
+        showDataForm(dataUserTemp);
+        document.querySelector("img").setAttribute("src", getBackendUrl(data.user.photo));
     });
 });
 
@@ -30,7 +36,6 @@ const formUserUpdate = document.querySelector("#profile");
 formUserUpdate.addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = new URLSearchParams(new FormData(formUserUpdate)).toString();
-    console.log(formData);
     fetch(getBackendUrlApi("users/update"), {
         method: "put",
         body: formData,
@@ -42,7 +47,33 @@ formUserUpdate.addEventListener("submit", (e) => {
         .then((response) => {
         response.json()
             .then((user) => {
-                //console.log(user);
+                console.log(user);
+                if(user.error) {
+                    showToast(user.error.message);
+                    return;
+                }
+                showToast("Dados atualizados com sucesso!");
             });
+    });
+});
+
+const formPhoto = document.querySelector("#form-photo");
+formPhoto.addEventListener("submit", (e) => {
+    e.preventDefault();
+    fetch(getBackendUrlApi("users/photo"), {
+        method: "POST",
+        body: new FormData(formPhoto),
+        headers: {
+            token: userAuth.token
+        }
+    }).then((response) => {
+        response.json().then((data) => {
+            if(data.error) {
+                showToast(data.error.message);
+                return;
+            }
+            showToast("Foto atualizada com sucesso!");
+            document.querySelector("img").setAttribute("src", getBackendUrl(data.user.photo));
+        });
     });
 });

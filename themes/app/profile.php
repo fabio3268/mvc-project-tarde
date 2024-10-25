@@ -29,7 +29,7 @@ $this->end();
             <input type="text" id="address" name="address">
         <button type="submit">Atualizar Perfil</button>
     </form>
-    <form enctype="multipart/form-data">
+    <form id="form-photo" enctype="multipart/form-data">
         <div class="form-group">
             <label for="foto">Foto:</label>
             <input type="file" id="photo" name="photo">

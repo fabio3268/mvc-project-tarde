@@ -4,6 +4,7 @@ namespace Source\App\Api;
 
 use Source\Core\TokenJWT;
 use Source\Models\User;
+use Source\Support\ImageUploader;
 
 class Users extends Api
 {
@@ -26,7 +27,8 @@ class Users extends Api
                 "id" => $this->userAuth->id,
                 "name" => $user->name,
                 "email" => $user->email,
-                "address" => $user->address
+                "address" => $user->address,
+                "photo" => $user->photo
             ]
         ]);
 
@@ -119,6 +121,9 @@ class Users extends Api
     public function updateUser(array $data)
     {
 
+        echo json_encode($data);
+        exit;
+
         if(!$this->userAuth){
             $this->back([
                 "type" => "error",
@@ -150,6 +155,50 @@ class Users extends Api
                 "id" => $user->getId(),
                 "name" => $user->getName(),
                 "email" => $user->getEmail()
+            ]
+        ]);
+
+    }
+
+    public function updatePhoto(array $data)
+    {
+
+        $imageUploader = new ImageUploader();
+        $photo = (!empty($_FILES["photo"]["name"]) ? $_FILES["photo"] : null);
+
+        $this->auth();
+
+        if (!$photo) {
+            $this->back([
+                "type" => "error",
+                "message" => "Por favor, envie uma foto do tipo JPG ou JPEG"
+            ]);
+            return;
+        }
+
+        $upload = $imageUploader->upload($photo);
+
+        $user = new User(
+            id: $this->userAuth->id,
+            photo: $upload
+        );
+
+        if (!$user->updatePhoto()) {
+            $this->back([
+                "type" => "error",
+                "message" => $user->getMessage()
+            ]);
+            return;
+        }
+
+        $this->back([
+            "type" => "success",
+            "message" => $user->getMessage(),
+            "user" => [
+                "id" => $user->getId(),
+                "name" => $user->getName(),
+                "email" => $user->getEmail(),
+                "photo" => $user->getPhoto()
             ]
         ]);
 

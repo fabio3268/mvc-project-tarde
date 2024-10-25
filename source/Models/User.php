@@ -12,6 +12,7 @@ class User extends Model {
     private $email;
     private $password;
     private $address;
+    private $photo;
     private $message;
 
     public function __construct(
@@ -19,7 +20,8 @@ class User extends Model {
         string $name = null,
         string $email = null,
         string $password = null,
-        string $address = null
+        string $address = null,
+        string $photo = null
     )
     {
         $this->id = $id;
@@ -27,6 +29,7 @@ class User extends Model {
         $this->email = $email;
         $this->password = $password;
         $this->address = $address;
+        $this->photo = $photo;
         $this->entity = "users";
     }
 
@@ -83,6 +86,11 @@ class User extends Model {
     public function getMessage(): ?string
     {
         return $this->message;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
     }
 
     public function insert(): ?int
@@ -234,5 +242,25 @@ class User extends Model {
 
     }
 
+    public function updatePhoto (): bool
+    {
+        $query = "UPDATE users 
+                  SET photo = :photo 
+                  WHERE id = :id";
+
+        $stmt = Connect::getInstance()->prepare($query);
+        $stmt->bindParam(":photo", $this->photo);
+        $stmt->bindParam(":id", $this->id);
+
+        try {
+            $stmt->execute();
+            $this->message = "Foto atualizada com sucesso!";
+            return true;
+        } catch (PDOException $exception) {
+            $this->message = "Erro ao atualizar: {$exception->getMessage()}";
+            return false;
+        }
+
+    }
 
 }

@@ -13,7 +13,9 @@
 <body class="private-area">
 <nav id="private-navbar">
     <div id="user-greeting">
-        <div id="user-photo"></div>
+        <div id="user-photo">
+            <img src="" alt="">
+        </div>
         <span>Olá, Fulano!</span>
     </div>
     <a href="<?= url("/app/perfil"); ?>">Perfil</a>

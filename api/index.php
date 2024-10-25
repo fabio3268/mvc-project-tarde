@@ -30,6 +30,7 @@ $route->post("/","Users:createUser");
 $route->get("/me","Users:getUser");
 $route->post("/login","Users:loginUser");
 $route->put("/update","Users:updateUser");
+$route->post("/photo","Users:updatePhoto");
 $route->post("/set-password","Users:setPassword");
 $route->get("/token-validate", "Users:tokenValidate");
 

@@ -38,6 +38,13 @@ body.private-area {
     background-color: #ccc; /* Placeholder para a foto do usuário */
 }
 
+#user-photo img {
+    width: 50px; /* Defina a largura desejada */
+    height: 50px; /* Defina a altura desejada */
+    border-radius: 50%; /* Faz a imagem ficar em formato de círculo */
+    object-fit: cover; /* Garante que a imagem se ajuste ao círculo */
+}
+
 .content-private {
     margin-left: 20px;
     margin-right: 20px;
