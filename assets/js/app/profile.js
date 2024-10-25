@@ -23,3 +23,24 @@ fetch(getBackendUrlApi("users/me"), {
         showDataForm(data.user);
     });
 });
+
+const formUserUpdate = document.querySelector("#profile");
+
+formUserUpdate.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new URLSearchParams(new FormData(formUserUpdate)).toString();
+    fetch(getBackendUrlApi("users/update"), {
+        method: "put",
+        body: formData,
+        headers: {
+            token: userAuth.token,
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    })
+        .then((response) => {
+        response.json()
+            .then((user) => {
+                console.log(user);
+            });
+    });
+});

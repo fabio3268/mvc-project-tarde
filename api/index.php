@@ -29,7 +29,7 @@ $route->get("/", "Users:listUsers");
 $route->post("/","Users:createUser");
 $route->get("/me","Users:getUser");
 $route->post("/login","Users:loginUser");
-$route->post("/update","Users:updateUser");
+$route->put("/update","Users:updateUser");
 $route->post("/set-password","Users:setPassword");
 $route->get("/token-validate", "Users:tokenValidate");
 

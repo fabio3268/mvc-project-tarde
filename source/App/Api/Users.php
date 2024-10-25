@@ -118,6 +118,13 @@ class Users extends Api
 
     public function updateUser(array $data)
     {
+
+        echo json_encode([
+            "data" => $data,
+            "userId" => $this->userAuth->id
+        ]);
+
+
         if(!$this->userAuth){
             $this->back([
                 "type" => "error",
@@ -125,6 +132,8 @@ class Users extends Api
             ]);
             return;
         }
+
+        /*
 
         $user = new User(
             $this->userAuth->id,
@@ -149,6 +158,7 @@ class Users extends Api
                 "email" => $user->getEmail()
             ]
         ]);
+        */
     }
 
     public function setPassword(array $data)
