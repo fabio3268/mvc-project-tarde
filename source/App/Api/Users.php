@@ -24,8 +24,8 @@ class Users extends Api
             "message" => "Usuário autenticado",
             "user" => [
                 "id" => $this->userAuth->id,
-                "name" => $this->userAuth->name,
-                "email" => $this->userAuth->email,
+                "name" => $user->name,
+                "email" => $user->email,
                 "address" => $user->address
             ]
         ]);
@@ -119,11 +119,6 @@ class Users extends Api
     public function updateUser(array $data)
     {
 
-        echo json_encode([
-            "data" => $data,
-            "userId" => $this->userAuth->id
-        ]);
-
         if(!$this->userAuth){
             $this->back([
                 "type" => "error",
@@ -132,12 +127,12 @@ class Users extends Api
             return;
         }
 
-        /*
-
         $user = new User(
             $this->userAuth->id,
             $data["name"],
-            $data["email"]
+            $data["email"],
+            '',
+            $data["address"]
         );
 
         if(!$user->update()){
@@ -157,7 +152,7 @@ class Users extends Api
                 "email" => $user->getEmail()
             ]
         ]);
-        */
+
     }
 
     public function setPassword(array $data)

@@ -20,6 +20,7 @@ fetch(getBackendUrlApi("users/me"), {
                 window.location.href = getBackendUrl();
             },3000);
         }
+        console.log(data.user);
         showDataForm(data.user);
     });
 });
@@ -41,7 +42,7 @@ formUserUpdate.addEventListener("submit", (e) => {
         .then((response) => {
         response.json()
             .then((user) => {
-                console.log(user);
+                //console.log(user);
             });
     });
 });
