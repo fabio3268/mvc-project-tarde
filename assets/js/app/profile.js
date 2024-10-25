@@ -29,6 +29,7 @@ const formUserUpdate = document.querySelector("#profile");
 formUserUpdate.addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = new URLSearchParams(new FormData(formUserUpdate)).toString();
+    console.log(formData);
     fetch(getBackendUrlApi("users/update"), {
         method: "put",
         body: formData,

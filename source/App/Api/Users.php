@@ -124,7 +124,6 @@ class Users extends Api
             "userId" => $this->userAuth->id
         ]);
 
-
         if(!$this->userAuth){
             $this->back([
                 "type" => "error",
