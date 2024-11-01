@@ -108,6 +108,7 @@ class Users extends Api
                 "id" => $user->getId(),
                 "name" => $user->getName(),
                 "email" => $user->getEmail(),
+                "photo" => $user->getPhoto(),
                 "token" => $token->create([
                     "id" => $user->getId(),
                     "name" => $user->getName(),
@@ -120,9 +121,6 @@ class Users extends Api
 
     public function updateUser(array $data)
     {
-
-        echo json_encode($data);
-        exit;
 
         if(!$this->userAuth){
             $this->back([
@@ -202,6 +200,20 @@ class Users extends Api
             ]
         ]);
 
+    }
+
+    public function getPhoto (array $data)
+    {
+        $this->auth();
+
+        $user = new User();
+        $userPhoto = $user->selectById($this->userAuth->id);
+
+        $this->back([
+            "type" => "success",
+            "message" => "Foto do usuário",
+            "photo" => $userPhoto->photo
+        ]);
     }
 
     public function setPassword(array $data)

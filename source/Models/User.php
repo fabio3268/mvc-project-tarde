@@ -13,7 +13,6 @@ class User extends Model {
     private $password;
     private $address;
     private $photo;
-    private $message;
 
     public function __construct(
         int $id = null,
@@ -154,11 +153,17 @@ class User extends Model {
         $this->setId($result->id);
         $this->setName($result->name);
         $this->setEmail($result->email);
+        $this->setPhoto($result->photo);
 
         $this->message = "Usuário logado com sucesso!";
 
         return true;
 
+    }
+
+    public function setPhoto(?string $photo): void
+    {
+        $this->photo = $photo;
     }
 
     public function update () : bool
@@ -244,6 +249,17 @@ class User extends Model {
 
     public function updatePhoto (): bool
     {
+        // selecionar o usuário, se tiver foto, apagar para gravar nova
+        $query = "SELECT photo FROM users WHERE id = :id";
+        $stmt = Connect::getInstance()->prepare($query);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        // ser houver foto, apagar do diretório
+        if ($result->photo) {
+            unlink(__DIR__ . "/../../{$result->photo}");
+        }
+
         $query = "UPDATE users 
                   SET photo = :photo 
                   WHERE id = :id";

@@ -10,6 +10,8 @@ if(!userAuth){
     window.location.href = getBackendUrl("login");
 }
 
+document.querySelector("img").setAttribute("src", getBackendUrl(userAuth.photo));
+
 // Código aqui está repetitivo, pois o thema faz a validação do token por tempo
 // e depois os demais scripts também farão a validação do token por tempo
 

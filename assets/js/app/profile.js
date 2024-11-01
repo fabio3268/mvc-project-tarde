@@ -26,6 +26,9 @@ fetch(getBackendUrlApi("users/me"), {
             email: data.user.email,
             address: data.user.address
         };
+
+        const address = document.querySelector("#address")
+        address.value = data.user.address;
         showDataForm(dataUserTemp);
         document.querySelector("img").setAttribute("src", getBackendUrl(data.user.photo));
     });
@@ -35,10 +38,9 @@ const formUserUpdate = document.querySelector("#profile");
 
 formUserUpdate.addEventListener("submit", (e) => {
     e.preventDefault();
-    const formData = new URLSearchParams(new FormData(formUserUpdate)).toString();
     fetch(getBackendUrlApi("users/update"), {
         method: "put",
-        body: formData,
+        body: new URLSearchParams(new FormData(formUserUpdate)).toString(),
         headers: {
             token: userAuth.token,
             "Content-Type": "application/x-www-form-urlencoded"
@@ -74,6 +76,8 @@ formPhoto.addEventListener("submit", (e) => {
             }
             showToast("Foto atualizada com sucesso!");
             document.querySelector("img").setAttribute("src", getBackendUrl(data.user.photo));
+            userAuth.photo = data.user.photo;
+            localStorage.setItem("userAuth", JSON.stringify(userAuth));
         });
     });
 });
