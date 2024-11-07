@@ -5,10 +5,6 @@ namespace Source\Support;
 class MyImageUploader
 {
 
-
-
-
-
 }
 
 if (!empty($_FILES["photo"]["name"])) {
