@@ -11,12 +11,12 @@ export default class HttpClientBase {
 
     // Método para configurar o token JWT
     setAuthToken(token) {
-        this.#defaultHeaders['Authorization'] = `Bearer ${token}`;
+        this.#defaultHeaders['token'] = `${token}`;
     }
 
     // Método para limpar o token JWT
     clearAuthToken() {
-        delete this.#defaultHeaders['Authorization'];
+        delete this.#defaultHeaders['token'];
     }
 
     // Método privado para construir a URL com parâmetros
@@ -45,6 +45,13 @@ export default class HttpClientBase {
     async #fetchWithConfig(endpoint, config, params = {}) {
         try {
             const url = this.#buildUrl(endpoint, params);
+            /*console.log(url, {
+                ...config,
+                headers: {
+                    ...this.#defaultHeaders,
+                    ...config.headers
+                }
+            });*/
             const response = await fetch(url, {
                 ...config,
                 headers: {
@@ -63,6 +70,7 @@ export default class HttpClientBase {
             }
 
             return await response.text();
+
         } catch (error) {
             throw new Error(`Request failed: ${error.message}`);
         }

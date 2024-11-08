@@ -8,7 +8,7 @@ use Source\Core\Model;
 class Service extends Model
 {
     private $id;
-    private $categoryId;
+    private $service_category_id;
     private $name;
     private $description;
     private $message;
@@ -21,7 +21,7 @@ class Service extends Model
     )
     {
         $this->id = $id;
-        $this->categoryId = $categoryId;
+        $this->service_category_id = $categoryId;
         $this->name = $name;
         $this->description = $description;
         $this->entity = "services";
@@ -55,6 +55,19 @@ class Service extends Model
         $stmt->bindParam("category_id", $categoryId);
         $stmt->execute();
         return $stmt->fetchAll();
+
+    }
+
+    public function insert (): int
+    {
+        $query = "INSERT INTO services (service_category_id, name, description) VALUES (:category_id, :name, :description)";
+        $conn = Connect::getInstance();
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam("category_id", $this->service_category_id);
+        $stmt->bindParam("name", $this->name);
+        $stmt->bindParam("description", $this->description);
+        $stmt->execute();
+        return $conn->lastInsertId();
 
     }
 

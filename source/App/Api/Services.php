@@ -62,9 +62,10 @@ class Services extends Api
 
     public function insert (array $data): void
     {
+        $this->auth();
         $service = new Service(
             NULL,
-            $data["idCategory"],
+            $data["service_category_id"],
             $data["name"],
             $data["description"]
         );
@@ -84,7 +85,7 @@ class Services extends Api
             "message" => "Serviço cadastrado com sucesso",
             "service" => [
                 "id" => $idService,
-                "idCategory" => $data["idCategory"],
+                "idCategory" => $data["service_category_id"],
                 "name" => $data["name"],
                 "description" => $data["description"]
             ]

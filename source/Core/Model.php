@@ -53,7 +53,7 @@ abstract class Model
             $this->message = "Registro inserido com sucesso!";
             return $result ? $conn->lastInsertId() : null;
         } catch (PDOException $exception) {
-            $this->message = "Erro ao inserir: {$exception->getMessage()}";
+            $this->message = "Erro ao inserir: {$exception->getMessage()} Query: {$query}";
             return false;
         }
 
