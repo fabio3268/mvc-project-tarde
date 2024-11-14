@@ -1,8 +1,8 @@
 import {
-    Service
-} from './../classes/Service.js';
+    HttpService
+} from '../classes/HttpService.js';
 
-const api = new Service();
+const api = new HttpService();
 
 try {
     const services = await api.getServicesByCategory(2);

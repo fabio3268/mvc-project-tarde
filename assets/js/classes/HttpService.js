@@ -1,14 +1,14 @@
 import HttpClientBase from './HttpClientBase.js';
 
 // Exemplo de classe concreta implementando a base
-export class Service extends HttpClientBase {
+export class HttpService extends HttpClientBase {
     constructor() {
         super(`http://localhost:8080/mvc-project-tarde/api/services`);
     }
 
     // Métodos específicos da API
-    async getServiceById(productId) {
-        return this.get('/service/:id', { id: productId });
+    async getServiceById(serviceId) {
+        return this.get('/service/:id', { id: serviceId });
     }
 
     async getServicesByCategory(category_id) {
@@ -18,19 +18,19 @@ export class Service extends HttpClientBase {
     async createService(serviceData) {
         return this.post('/service', serviceData);
     }
-
-    async updateService(productId, productData) {
-        return this.put(`/products/${productId}`, productData);
+/*
+    async updateService(serviceId, serviceData) {
+        return this.put(`/services/${productId}`, productData);
     }
 
-    async deleteService(productId) {
-        return this.delete(`/products/${productId}`);
+    async deleteService(serviceId) {
+        return this.delete(`/services/${serviceId}`);
     }
 
     // Exemplo com FormData
-    async uploadServiceImage(productId, imageFile) {
+    async uploadServiceImage(serviceId, imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
-        return this.post(`/products/${productId}/image`, formData);
-    }
+        return this.post(`/services/${serviceId}/image`, formData);
+    }*/
 }
