@@ -21,7 +21,7 @@ $this->end();
     </label>
     <label>
         <span>Email:</span>
-        <input type="email" name="email" value="fabiosantos@ifsul.edu.br">
+        <input type="text" name="email" value="fabiosantos@ifsul.edu.br">
     </label>
     <label>
         <span>Senha:</span>
@@ -35,7 +35,7 @@ $this->end();
 <form id="formLogin">
     <label>
         <span>Email:</span>
-        <input type="email" name="email" value="fabiosantos@ifsul.edu.br">
+        <input type="text" name="email" value="fabiosantos@ifsul.edu.br">
     </label>
     <label>
         <span>Senha:</span>

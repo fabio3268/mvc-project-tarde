@@ -71,4 +71,26 @@ class Service extends Model
 
     }
 
+    public function update (): bool
+    {
+        $query = "UPDATE {$this->entity} 
+                  SET service_category_id = :category_id, name = :name, description = :description 
+                  WHERE id = :id";
+        $conn = Connect::getInstance();
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam("category_id", $this->service_category_id);
+        $stmt->bindParam("name", $this->name);
+        $stmt->bindParam("description", $this->description);
+        $stmt->bindParam("id", $this->id);
+        $stmt->execute();
+
+        if($stmt->rowCount() == 1) {
+            return true;
+        } else {
+            $this->message = "Erro ao atualizar o serviço";
+            return false;
+        }
+
+    }
+
 }

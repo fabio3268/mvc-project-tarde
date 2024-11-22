@@ -1,37 +1,96 @@
 import {
+    showDataForm, showDataSelect
+} from "../_shared/functions.js";
+
+import {
     HttpService
 } from '../classes/HttpService.js';
 
+import  {
+    HttpServiceCategory
+} from "../classes/HttpServiceCategory.js";
+
 const api = new HttpService();
+const apiCategoryService =  new HttpServiceCategory();
+
+const selectCategoriesServices = document.querySelector('#service_category_id');
+const modal = document.querySelector('.modal');
+const servicesContainer = document.querySelector('.services-container');
+const editForm = document.querySelector('#editForm');
 
 try {
-    const services = await api.getServicesByCategory(2);
-    console.log(services);
+    const categoriesServices = await apiCategoryService.getAllCategories();
+    console.log(categoriesServices);
+    showDataSelect(categoriesServices, selectCategoriesServices);
 } catch (error) {
     console.error('Erro na requisição:', error);
 }
 
+// função para abrir modal
+function openModal() {
+    modal.style.display = 'flex';
+}
+// função para fechar modal
+function closeModal() {
+    modal.style.display = 'none';
+}
+
+document.querySelector(".btn-cancel").addEventListener('click', () => {
+    closeModal();
+});
+
+function renderServices (listServices) {
+    servicesContainer.innerHTML = ``;
+    listServices.forEach(service => {
+        const serviceArticle = document.createElement('article');
+        serviceArticle.innerHTML = `
+                <span data-label="ID">${service.id}</span>
+                <span data-label="Name">${service.name}</span>
+                <span data-label="Category">${service.category}</span>
+                <div class="service-actions">
+                    <button service-id="${service.id}" class="btn btn-edit">Edit</button>
+                    <button class="btn btn-delete">Delete</button>
+                </div>
+        `;
+        serviceArticle.classList.add('service-item');
+        servicesContainer.appendChild(serviceArticle);
+    });
+}
+
 try {
-    const service = await api.getServiceById(1);
-    console.log(service);
+    const listServices = await api.getAllServices();
+    //console.log(listServices);
+    renderServices(listServices);
 } catch (error) {
     console.error('Erro na requisição:', error);
 }
 
-/*
-const formInsertService = document.querySelector('#form-insert-service');
+// Evento de clique em um botão de edição
+servicesContainer.addEventListener('click', async (event) => {
+    const target = event.target;
+    if (target.classList.contains('btn-edit')) {
+        const serviceId = target.getAttribute('service-id');
+        try {
+            const service = await api.getServiceById(serviceId);
+            console.log(service);
+            showDataForm(service);
+            openModal();
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+        }
+    }
+});
 
-formInsertService.addEventListener('submit', async (event) => {
+editForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    api.setAuthToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MzEwNzA3MjYsImp0aSI6ImhHUExTYjRXbDBKUWJ2STFFR2dCVFE9PSIsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdDo4MDgwXC9tdmMtcHJvamVjdC10YXJkZSIsIm5iZiI6MTczMTA3MDcyNiwiZXhwIjoxNzMxMDc2MTI2LCJkYXRhIjp7ImlkIjo0LCJuYW1lIjoiRlx1MDBlMWJpbyBMdVx1MDBlZHMgZGEgU2lsdmEiLCJlbWFpbCI6ImZhYmlvc2FudG9zQGlmc3VsLmVkdS5iciJ9fQ.tgG5EGCf0I4psdryCjBM4ZXb9FDqocY3raxXd_yZb74FLJ3Fj4LyUB6IZvwTBPF5w_d6E0tFMxz3vp39EnTbmA');
-
-    const formDataService = new FormData(formInsertService);
-
+    const formData = new FormData(editForm);
+    //const data = new URLSearchParams(new FormData(editForm)).toString();
+    //console.log(data);
     try {
-        const newService = await api.createService(formDataService);
-        console.log(newService);
+        const response = await api.updateService(formData);
+        //const response = await api.updateService(data);
+        console.log(response);
     } catch (error) {
         console.error('Erro na requisição:', error);
     }
 });
-*/

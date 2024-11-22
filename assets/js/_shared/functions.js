@@ -44,10 +44,11 @@ export function showDataSelect  (listObj, selectHtml) {
 }
 
 // Função para exibir mensagens toast
-export function showToast (message) {
+export function showToast (message, type = "success") {
     const toastContainer = document.getElementById('toast-container');
     const toast = document.createElement('div');
-    toast.className = 'toast';
+    toast.className = `toast`;
+    toast.classList.add(type);
     toast.textContent = message;
 
     toastContainer.appendChild(toast);

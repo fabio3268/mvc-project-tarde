@@ -24,7 +24,7 @@ class ServicesCategories extends Api
         echo "Olá, eu sou o INSERT POST CREATE";
     }
 
-    public function getCategory (array $data) : void
+    public function selectAll (array $data) : void
     {
         $servicesCategories = (new ServiceCategory())->selectAll();
         $this->back($servicesCategories);

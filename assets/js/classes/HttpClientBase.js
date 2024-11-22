@@ -45,13 +45,6 @@ export default class HttpClientBase {
     async #fetchWithConfig(endpoint, config, params = {}) {
         try {
             const url = this.#buildUrl(endpoint, params);
-            /*console.log(url, {
-                ...config,
-                headers: {
-                    ...this.#defaultHeaders,
-                    ...config.headers
-                }
-            });*/
             const response = await fetch(url, {
                 ...config,
                 headers: {
@@ -100,10 +93,21 @@ export default class HttpClientBase {
 
     // PUT
     async put(endpoint, data = null, params = {}) {
-        return this.#fetchWithConfig(endpoint, {
+
+        let config = {
             method: 'PUT',
-            body: JSON.stringify(data)
-        }, params);
+            headers: {}
+        };
+
+        if (data instanceof FormData) {
+            config.body = new URLSearchParams(data).toString();
+            config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        } else {
+            config.body = JSON.stringify(data);
+            config.headers['Content-Type'] = 'application/json';
+        }
+
+        return this.#fetchWithConfig(endpoint, config, params);
     }
 
     // DELETE

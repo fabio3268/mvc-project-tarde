@@ -3,6 +3,7 @@
 namespace Source\App\Api;
 
 use Source\Models\Service;
+use Source\Models\ServiceCategory;
 
 class Services extends Api
 {
@@ -22,6 +23,23 @@ class Services extends Api
         $this->back($response);
     }
 
+    public function selectAll(array $data): void
+    {
+        // quando a rota não necessita de autenticação, não evoca o método $this->auth()
+        $service = new Service();
+        $services = $service->selectAll();
+
+        $i = 0;
+        foreach ($services as $service) {
+            //var_dump($service->service_category_id);
+            $category = (new ServiceCategory())->selectById($service->service_category_id);
+            $services[$i]->category = $category->name;
+            $i++;
+        }
+
+        $this->back($services);
+    }
+
     public function listByCategory (array $data)
     {
         // quando a rota não necessita de autenticação, não evoca o método $this->auth()
@@ -32,7 +50,24 @@ class Services extends Api
 
     public function update(array $data)
     {
-        $this->auth();
+        //$this->auth();
+        $service = new Service(
+            $data["id"],
+            $data["service_category_id"],
+            $data["name"],
+            $data["description"]
+        );
+
+        if(!$service->update()) {
+            $this->back([
+                "error" => [
+                    "code" => "500",
+                    "type" => "error",
+                    "message" => $service->getMessage()
+                ]
+            ]);
+            return;
+        }
 
         $response = [
             "success" => [

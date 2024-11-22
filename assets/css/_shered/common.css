@@ -11,7 +11,6 @@
 .toast {
     display: flex;
     align-items: center;
-    background-color: #cd1717;
     color: #fff;
     padding: 10px 20px;
     margin-bottom: 10px;
@@ -19,6 +18,18 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+}
+
+.success {
+    background-color: #4CAF50;
+}
+
+.error {
+    background-color: #F44336;
+}
+
+.warning {
+    background-color: #FFC107;
 }
 
 .toast.show {

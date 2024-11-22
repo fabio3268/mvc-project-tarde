@@ -52,17 +52,22 @@ $route->group("/services");
 $route->get("/service/{serviceId}","Services:getById");
 $route->post("/service","Services:insert");
 $route->delete("/service/{serviceId}","Services:delete");
-$route->put("/service/{serviceId}/name/{name}/description/{description}","Services:update");
+$route->put("/service","Services:update");
+//$route->put("/service/{id}/{name}/{description}/{service_category_id}","Services:update");
 $route->get("/list-by-category/category/{categoryId}","Services:listByCategory");
+$route->get("/list","Services:selectAll");
 //$route->get("/list-by-category/category/{categoryId}/bland/{blandId}","Services:listByCategory");
 
 $route->group("null");
 
 $route->group("/services-categories");
+
 $route->post("/","ServicesCategories:insert");
 $route->get("/","ServicesCategories:getCategory");
 $route->put("/","ServicesCategories:update");
 $route->delete("/","ServicesCategories:remove");
+$route->get("/list","ServicesCategories:selectAll");
+
 $route->group("null");
 
 

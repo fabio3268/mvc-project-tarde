@@ -18,10 +18,16 @@ export class HttpService extends HttpClientBase {
     async createService(serviceData) {
         return this.post('/service', serviceData);
     }
-/*
-    async updateService(serviceId, serviceData) {
-        return this.put(`/services/${productId}`, productData);
+
+    async getAllServices() {
+        return this.get('/list');
     }
+
+    async updateService(serviceData) {
+        return this.put(`/service`, serviceData);
+    }
+
+    /*
 
     async deleteService(serviceId) {
         return this.delete(`/services/${serviceId}`);

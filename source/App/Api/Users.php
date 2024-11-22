@@ -93,6 +93,23 @@ class Users extends Api
     public function loginUser (array $data) {
         $user = new User();
 
+        // verificar se $data["email"] e $data["password"] estão vazios
+        if(in_array("", $data)){
+            $this->back([
+                "type" => "warning",
+                "message" => "Preencha todos os campos"
+            ]);
+            return;
+        }
+        // verificar se o email é válido
+        if(!filter_var($data["email"], FILTER_VALIDATE_EMAIL)){
+            $this->back([
+                "type" => "warning",
+                "message" => "Email inválido"
+            ]);
+            return;
+        }
+
         if(!$user->login($data["email"],$data["password"])){
             $this->back([
                 "type" => "error",
