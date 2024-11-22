@@ -178,6 +178,25 @@
             background-color: #5a6268;
         }
 
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            color: #333;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
         @media (max-width: 768px) {
             .list-header {
                 display: none;
@@ -211,6 +230,11 @@
     <h1>Admin Services</h1>
     <section class="search-container">
         <input type="text" id="searchInput" class="search-input" placeholder="Buscar pelo nome do serviço...">
+    </section>
+    <section class="search-container">
+        <select name="searchCategories" id="searchCategories">
+            <option value="all">Todos</option>
+        </select>
     </section>
 </header>
 

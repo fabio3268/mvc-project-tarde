@@ -17,11 +17,14 @@ const selectCategoriesServices = document.querySelector('#service_category_id');
 const modal = document.querySelector('.modal');
 const servicesContainer = document.querySelector('.services-container');
 const editForm = document.querySelector('#editForm');
+const searchCategories = document.querySelector('#searchCategories');
 
 try {
     const categoriesServices = await apiCategoryService.getAllCategories();
-    console.log(categoriesServices);
+    //console.log(categoriesServices);
     showDataSelect(categoriesServices, selectCategoriesServices);
+    showDataSelect(categoriesServices, searchCategories);
+
 } catch (error) {
     console.error('Erro na requisição:', error);
 }
@@ -59,7 +62,6 @@ function renderServices (listServices) {
 
 try {
     const listServices = await api.getAllServices();
-    //console.log(listServices);
     renderServices(listServices);
 } catch (error) {
     console.error('Erro na requisição:', error);
@@ -93,4 +95,30 @@ editForm.addEventListener('submit', async (event) => {
     } catch (error) {
         console.error('Erro na requisição:', error);
     }
+});
+
+const searchInput = document.querySelector('#searchInput');
+
+searchInput.addEventListener('keyup', async () => {
+    if(searchInput.value.length < 3)
+    {
+        return;
+    }
+
+    try {
+        const servicesListSearch = await api.getServicesByName({name: searchInput.value});
+        renderServices(servicesListSearch);
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+    }
+});
+
+searchCategories.addEventListener("change", async () => {
+    let servicesListFilter;
+    if(searchCategories.value == "all") {
+        servicesListFilter = await api.getAllServices();
+    } else {
+        servicesListFilter = await api.getServicesByCategory(searchCategories.value);
+    }
+    renderServices(servicesListFilter);
 });

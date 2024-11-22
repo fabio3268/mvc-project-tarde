@@ -93,4 +93,18 @@ class Service extends Model
 
     }
 
+    public function listByName (string $name)
+    {
+        $query = "SELECT services.id, services.name, services.description, 
+                  services_categories.name as 'category'
+                  FROM {$this->entity}
+                  INNER JOIN services_categories ON services.service_category_id = services_categories.id
+                  WHERE services.name LIKE :name";
+        $conn = Connect::getInstance();
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue("name", "%". $name ."%");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
 }

@@ -45,6 +45,7 @@ export default class HttpClientBase {
     async #fetchWithConfig(endpoint, config, params = {}) {
         try {
             const url = this.#buildUrl(endpoint, params);
+            //console.log(url); // para debug
             const response = await fetch(url, {
                 ...config,
                 headers: {

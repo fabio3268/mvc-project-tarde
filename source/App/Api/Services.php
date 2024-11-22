@@ -127,4 +127,11 @@ class Services extends Api
         ]);
 
     }
+
+    public function listByName(array $data)
+    {
+        $service = new Service();
+        $listServices = $service->listByName($data["name"]);
+        $this->back($listServices);
+    }
 }

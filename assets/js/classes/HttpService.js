@@ -11,6 +11,11 @@ export class HttpService extends HttpClientBase {
         return this.get('/service/:id', { id: serviceId });
     }
 
+    async getServicesByName(serviceName) {
+        //console.log()
+        return this.get(`/list-by-name/name/:name`,serviceName);
+    }
+
     async getServicesByCategory(category_id) {
         return this.get('/list-by-category/category/:id', {id: category_id});
     }

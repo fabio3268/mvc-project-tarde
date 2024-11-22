@@ -57,7 +57,7 @@ $route->put("/service","Services:update");
 $route->get("/list-by-category/category/{categoryId}","Services:listByCategory");
 $route->get("/list","Services:selectAll");
 //$route->get("/list-by-category/category/{categoryId}/bland/{blandId}","Services:listByCategory");
-
+$route->get("/list-by-name/name/{name}","Services:listByName");
 $route->group("null");
 
 $route->group("/services-categories");
