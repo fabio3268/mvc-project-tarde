@@ -1,5 +1,5 @@
 import {
-    showDataForm, showDataSelect
+    showDataForm, showDataSelect, showToast
 } from "../_shared/functions.js";
 
 import {
@@ -46,12 +46,13 @@ function renderServices (listServices) {
     servicesContainer.innerHTML = ``;
     listServices.forEach(service => {
         const serviceArticle = document.createElement('article');
+        serviceArticle.setAttribute("service-id", service.id);
         serviceArticle.innerHTML = `
                 <span data-label="ID">${service.id}</span>
                 <span data-label="Name">${service.name}</span>
-                <span data-label="Category">${service.category}</span>
+                <span data-label="Category">${service.category_name}</span>
                 <div class="service-actions">
-                    <button service-id="${service.id}" class="btn btn-edit">Edit</button>
+                    <button class="btn btn-edit">Edit</button>
                     <button class="btn btn-delete">Delete</button>
                 </div>
         `;
@@ -71,7 +72,7 @@ try {
 servicesContainer.addEventListener('click', async (event) => {
     const target = event.target;
     if (target.classList.contains('btn-edit')) {
-        const serviceId = target.getAttribute('service-id');
+        const serviceId = target.parentElement.parentElement.getAttribute('service-id');
         try {
             const service = await api.getServiceById(serviceId);
             console.log(service);
@@ -87,11 +88,40 @@ editForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const formData = new FormData(editForm);
     //const data = new URLSearchParams(new FormData(editForm)).toString();
-    //console.log(data);
     try {
-        const response = await api.updateService(formData);
+        const serviceUpdate = await api.updateService(formData);
         //const response = await api.updateService(data);
-        console.log(response);
+        showToast(serviceUpdate.message, serviceUpdate.type);
+        const serviceArticle = document.querySelector(`article[service-id="${serviceUpdate.data.id}"]`);
+        if(serviceUpdate.type == "success"){
+            if(searchCategories.value == "all") {
+                serviceArticle.querySelector('span[data-label="Name"]').textContent = serviceUpdate.data.name;
+                serviceArticle.querySelector('span[data-label="Category"]').textContent = serviceUpdate.data.category_name;
+            } else {
+                if(searchCategories.value == serviceUpdate.data.service_category_id) {
+                    serviceArticle.querySelector('span[data-label="Name"]').textContent = serviceUpdate.data.name;
+                    serviceArticle.querySelector('span[data-label="Category"]').textContent = serviceUpdate.data.category_name;
+                } else {
+                    serviceArticle.remove();
+                }
+            }
+            if(!serviceArticle) {
+                // criar uma nova linha na tabela e inserir no topo
+                const newServiceArticle = document.createElement('article');
+                newServiceArticle.setAttribute("service-id", serviceUpdate.data.id);
+                newServiceArticle.innerHTML = `
+                    <span data-label="ID">${serviceUpdate.data.id}</span>
+                    <span data-label="Name">${serviceUpdate.data.name}</span>
+                    <span data-label="Category">${serviceUpdate.data.category_name}</span>
+                    <div class="service-actions">
+                        <button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-delete">Delete</button>
+                    </div>
+                `;
+                newServiceArticle.classList.add('service-item');
+                servicesContainer.prepend(newServiceArticle);
+            }
+        }
     } catch (error) {
         console.error('Erro na requisição:', error);
     }
@@ -115,10 +145,12 @@ searchInput.addEventListener('keyup', async () => {
 
 searchCategories.addEventListener("change", async () => {
     let servicesListFilter;
+
     if(searchCategories.value == "all") {
         servicesListFilter = await api.getAllServices();
     } else {
         servicesListFilter = await api.getServicesByCategory(searchCategories.value);
     }
+
     renderServices(servicesListFilter);
 });

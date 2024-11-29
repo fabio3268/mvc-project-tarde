@@ -33,7 +33,7 @@ class Services extends Api
         foreach ($services as $service) {
             //var_dump($service->service_category_id);
             $category = (new ServiceCategory())->selectById($service->service_category_id);
-            $services[$i]->category = $category->name;
+            $services[$i]->category_name = $category->name;
             $i++;
         }
 
@@ -60,20 +60,23 @@ class Services extends Api
 
         if(!$service->update()) {
             $this->back([
-                "error" => [
-                    "code" => "500",
-                    "type" => "error",
-                    "message" => $service->getMessage()
-                ]
+                "type" => "error",
+                "message" => "Tente novamente"
             ]);
             return;
         }
 
+        $category = (new ServiceCategory())->selectById($data["service_category_id"]);
+
         $response = [
-            "success" => [
-                "code" => "200",
-                "type" => "success",
-                "message" => "Serviço alterado com sucesso"
+            "type" => "success",
+            "message" => "Serviço alterado com sucesso",
+            "data" => [
+                "id" => $data["id"],
+                "service_category_id" => $data["service_category_id"],
+                "category_name" => $category->name,
+                "name" => $data["name"],
+                "description" => $data["description"]
             ]
         ];
 
@@ -82,14 +85,11 @@ class Services extends Api
 
     public function delete (array $data)
     {
-        $this->auth();
+        //$this->auth();
 
         $response = [
-            "success" => [
-                "code" => "200",
-                "type" => "success",
-                "message" => "Serviço deletado com sucesso"
-            ]
+            "type" => "success",
+            "message" => "Serviço deletado com sucesso"
         ];
 
         $this->back($response);
